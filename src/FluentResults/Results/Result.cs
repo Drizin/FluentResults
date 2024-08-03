@@ -198,26 +198,13 @@ namespace FluentResults
         }
 
         /// <summary>
-        /// Deconstruct Result 
-        /// </summary>
-        /// <param name="isSuccess"></param>
-        /// <param name="isFailed"></param>
-        public void Deconstruct(out bool isSuccess, out bool isFailed)
-        {
-            isSuccess = IsSuccess;
-            isFailed = IsFailed;
-        }
-
-        /// <summary>
         /// Deconstruct Result
         /// </summary>
         /// <param name="isSuccess"></param>
-        /// <param name="isFailed"></param>
         /// <param name="errors"></param>
-        public void Deconstruct(out bool isSuccess, out bool isFailed, out List<IError> errors)
+        public void Deconstruct(out bool isSuccess, out List<IError> errors)
         {
             isSuccess = IsSuccess;
-            isFailed = IsFailed;
             errors = IsFailed ? Errors : default;
         }
 
@@ -574,26 +561,11 @@ namespace FluentResults
         /// Deconstruct Result
         /// </summary>
         /// <param name="isSuccess"></param>
-        /// <param name="isFailed"></param>
-        /// <param name="value"></param>
-        public void Deconstruct(out bool isSuccess, out bool isFailed, out TValue value)
-        {
-            isSuccess = IsSuccess;
-            isFailed = IsFailed;
-            value = IsSuccess ? Value : default;
-        }
-
-        /// <summary>
-        /// Deconstruct Result
-        /// </summary>
-        /// <param name="isSuccess"></param>
-        /// <param name="isFailed"></param>
         /// <param name="value"></param>
         /// <param name="errors"></param>
-        public void Deconstruct(out bool isSuccess, out bool isFailed, out TValue value, out List<IError> errors)
+        public void Deconstruct(out bool isSuccess, out TValue value, out List<IError> errors)
         {
             isSuccess = IsSuccess;
-            isFailed = IsFailed;
             value = IsSuccess ? Value : default;
             errors = IsFailed ? Errors : default;
         }
