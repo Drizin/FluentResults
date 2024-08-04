@@ -20,7 +20,7 @@ namespace FluentResults.Test
             okResult.IsSuccess.Should().BeTrue();
 
             okResult.Reasons.Should().BeEmpty();
-            okResult.Errors.Should().BeEmpty();
+            okResult.Errors.Should().BeNull();
             okResult.Successes.Should().BeEmpty();
         }
 
@@ -40,7 +40,7 @@ namespace FluentResults.Test
             okResult.Successes.First().Should().BeOfType<Success>();
             okResult.Successes.First().Message.Should().Be("First success message");
 
-            okResult.Errors.Should().BeEmpty();
+            okResult.Errors.Should().BeNull();
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace FluentResults.Test
             okResult.Reasons[0].Message.Should().Be("First success message");
             okResult.Reasons[1].Message.Should().Be("Second success message");
 
-            okResult.Errors.Should().BeEmpty();
+            okResult.Errors.Should().BeNull();
         }
 
         [Fact]
@@ -533,7 +533,7 @@ namespace FluentResults.Test
             var result = Result.Try(Action);
 
             result.IsSuccess.Should().BeTrue();
-            result.Errors.Should().BeEmpty();
+            result.Errors.Should().BeNull();
         }
 
         [Fact]
@@ -544,7 +544,7 @@ namespace FluentResults.Test
             var result = await Result.Try(Action);
 
             result.IsSuccess.Should().BeTrue();
-            result.Errors.Should().BeEmpty();
+            result.Errors.Should().BeNull();
         }
 
         [Fact]
@@ -555,7 +555,7 @@ namespace FluentResults.Test
             var result = await Result.Try(Action);
 
             result.IsSuccess.Should().BeTrue();
-            result.Errors.Should().BeEmpty();
+            result.Errors.Should().BeNull();
         }
 
         [Fact]

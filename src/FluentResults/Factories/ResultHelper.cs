@@ -32,6 +32,11 @@ namespace FluentResults
             out IEnumerable<TError> result)
             where TError : IError
         {
+            if (errors == null)
+            {
+                result = Array.Empty<TError>();
+                return false;
+            }
             var foundErrors = errors.OfType<TError>().Where(predicate).ToList();
             if (foundErrors.Any())
             {
@@ -56,6 +61,11 @@ namespace FluentResults
             out IEnumerable<IError> result)
             where TException : Exception
         {
+            if (errors == null)
+            {
+                result = Array.Empty<IError>();
+                return false;
+            }
             var foundErrors = errors.OfType<ExceptionalError>()
                 .Where(e => e.Exception is TException rootExceptionOfTException
                             && predicate(rootExceptionOfTException))

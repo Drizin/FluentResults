@@ -201,7 +201,7 @@ namespace FluentResults
         /// Deconstruct Result
         /// The nice thing about using Deconstructors (instead of accessing <see cref="ResultBase.Errors"/>) is that 
         /// the error object will be NULL in case of a success, so you don't have to check for empty arrays, etc.
-        /// So you always get a OneOf semantic - either errors==null or value==null (or default(T) for non-nullable types)
+        /// So you always get a OneOf semantic - either errors==null or isSuccess==false
         /// </summary>
         /// <param name="isSuccess"></param>
         /// <param name="errors"></param>

@@ -28,7 +28,7 @@ namespace FluentResults
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public List<IError> Errors => Reasons.OfType<IError>().ToList();
+        public List<IError>? Errors => IsFailed ? Reasons.OfType<IError>().ToList() : null;
 
         /// <summary>
         /// <inheritdoc/>

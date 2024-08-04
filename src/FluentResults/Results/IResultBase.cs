@@ -24,9 +24,10 @@ namespace FluentResults
         List<IReason> Reasons { get; }
 
         /// <summary>
-        /// Get all errors
+        /// Get all errors (if any)
+        /// If null it means it's a success
         /// </summary>
-        List<IError> Errors { get; }
+        List<IError>? Errors { get; }
 
         /// <summary>
         /// Get all successes

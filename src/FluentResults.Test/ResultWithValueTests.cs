@@ -20,7 +20,7 @@ namespace FluentResults.Test
             okResult.IsSuccess.Should().BeTrue();
 
             okResult.Reasons.Should().BeEmpty();
-            okResult.Errors.Should().BeEmpty();
+            okResult.Errors.Should().BeNull();
             okResult.Successes.Should().BeEmpty();
             okResult.Value.Should().Be(0);
             okResult.ValueOrDefault.Should().Be(0);
@@ -67,7 +67,7 @@ namespace FluentResults.Test
             okResult.Successes.First().Should().BeOfType<Success>();
             okResult.Successes.First().Message.Should().Be("First success message");
 
-            okResult.Errors.Should().BeEmpty();
+            okResult.Errors.Should().BeNull();
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace FluentResults.Test
             okResult.Reasons[0].Message.Should().Be("First success message");
             okResult.Reasons[1].Message.Should().Be("Second success message");
 
-            okResult.Errors.Should().BeEmpty();
+            okResult.Errors.Should().BeNull();
         }
 
         [Fact]
@@ -845,7 +845,7 @@ namespace FluentResults.Test
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().Be(5);
-            result.Errors.Should().BeEmpty();
+            result.Errors.Should().BeNull();
         }
 
         [Fact]
@@ -857,7 +857,7 @@ namespace FluentResults.Test
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().Be(5);
-            result.Errors.Should().BeEmpty();
+            result.Errors.Should().BeNull();
         }
 
         [Fact]
@@ -869,7 +869,7 @@ namespace FluentResults.Test
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().Be(5);
-            result.Errors.Should().BeEmpty();
+            result.Errors.Should().BeNull();
         }
 
         [Fact]
@@ -927,7 +927,7 @@ namespace FluentResults.Test
             result.IsSuccess.Should().BeTrue();
             result.IsFailed.Should().BeFalse();
             result.Reasons.Should().BeEmpty();
-            result.Errors.Should().BeEmpty();
+            result.Errors.Should().BeNull();
 
             result.Value.Should().Be(value);
             result.Value.Should().BeOfType<string>();
@@ -944,7 +944,7 @@ namespace FluentResults.Test
             result.IsSuccess.Should().BeTrue();
             result.IsFailed.Should().BeFalse();
             result.Reasons.Should().BeEmpty();
-            result.Errors.Should().BeEmpty();
+            result.Errors.Should().BeNull();
 
             result.Value.Should().BeNull();
             result.ValueOrDefault.Should().BeNull();
@@ -958,7 +958,7 @@ namespace FluentResults.Test
             result.IsSuccess.Should().BeTrue();
             result.IsFailed.Should().BeFalse();
             result.Reasons.Should().BeEmpty();
-            result.Errors.Should().BeEmpty();
+            result.Errors.Should().BeNull();
 
             result.Value.Should().NotBeNull();
             result.ValueOrDefault.Should().NotBeNull();
@@ -972,7 +972,7 @@ namespace FluentResults.Test
 
             result.IsSuccess.Should().BeTrue();
             result.IsFailed.Should().BeFalse();
-            result.Errors.Should().BeEmpty();
+            result.Errors.Should().BeNull();
 
             result.Value.Should().NotBeNull();
             result.ValueOrDefault.Should().NotBeNull();
@@ -1004,16 +1004,6 @@ namespace FluentResults.Test
 
             value.Should().Be(10);
             errors.Should().BeNull();
-        }
-
-        [Fact]
-        public void Can_deconstruct_generic_Fail_to_isSuccess_value_and_errors()
-        {
-            var (isSuccess, value, errors) = Result.Fail<int>("fail");
-
-            isSuccess.Should().Be(false);
-            value.Should().Be(0); // since this is non-nullable you can't test for errors comparing this to null (should use errors variable)
-            errors.Should().NotBeNullOrEmpty();
         }
 
         [Fact]
@@ -1065,30 +1055,6 @@ namespace FluentResults.Test
             errors.FirstOrDefault().Should().Be(error);
         }
 
-
-        [Fact]
-        public void Can_deconstruct_generic_Ok_to_isSuccess_and_value_with_errors()
-        {
-            var (isSuccess, value, errors) = Result.Ok(100);
-
-            isSuccess.Should().Be(true);
-            value.Should().Be(100);
-            errors.Should().BeNull();
-        }
-
-        [Fact]
-        public void Can_deconstruct_generic_Fail_to_isSuccess_and_errors_with_value()
-        {
-            var error = new Error("fail");
-
-            var (isSuccess, value, errors) = Result.Fail<bool>(error);
-
-            isSuccess.Should().Be(false);
-            value.Should().Be(default);
-
-            errors.Count.Should().Be(1);
-            errors.FirstOrDefault().Should().Be(error);
-        }
 
         [Fact]
         public void Can_deconstruct_generic_Ok_ReferenceType_to_value_and_errors()

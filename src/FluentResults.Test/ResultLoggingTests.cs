@@ -337,7 +337,7 @@ namespace FluentResults.Test
             result.Successes.Should().HaveCount(1);
             result.Successes[0].Message.Should().Be("Prefix: Success 1");
 
-            result.Errors.Should().BeEmpty();
+            result.Errors.Should().BeNull();
 
             result.Value.Should().Be(5);
         }
@@ -355,7 +355,7 @@ namespace FluentResults.Test
             result.Successes.Should().HaveCount(1);
             result.Successes[0].Message.Should().Be("Prefix: Success 1");
 
-            result.Errors.Should().BeEmpty();
+            result.Errors.Should().BeNull();
         }
     }
 }

@@ -26,7 +26,8 @@ namespace FluentResults
         /// </summary>
         public TResult WithReasons(IEnumerable<IReason> reasons)
         {
-            Reasons.AddRange(reasons);
+            if (reasons != null)
+                Reasons.AddRange(reasons);
             return (TResult)this;
         }
 
