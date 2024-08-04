@@ -513,10 +513,19 @@ var outcome = result switch
 
 ```csharp
 // For Result<TValue> you get TValue and Errors
+// result == 1, errors empty:
 var (result, errors) = Result.Ok(1);
-var (result, errors) = Result.Ok<int>(1);
-// beware that on error you will get "result==0" (since TValue is a non-nullable int), so you probably want to check errors first!
+var (result, errors) = Result.Ok<int?>(1);
+
+// result == null, errors non-empty
+var (result, errors) = Result.Fail<int?>("fail");
+
+// result == 0, errors non-empty
 var (result, errors) = Result.Fail<int>("fail");
+// I recommend that underlying value type is always nullable
+// If you use a non-nullable value type (like int) your result can't be null
+// but you'll still get non-empty errors so you know it's an error
+
 
 // For Result (without underlying value) you get bool isSuccess and Errors
 var (isSuccess, errors) = Result.Fail("Failure 1");

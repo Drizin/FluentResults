@@ -1091,6 +1091,30 @@ namespace FluentResults.Test
         }
 
         [Fact]
+        public void Can_deconstruct_generic_Ok_ReferenceType_to_value_and_errors()
+        {
+            var order = new SalesOrder();
+            var (value, errors) = Result.Ok(order);
+
+            value.Should().Be(order);
+            errors.Should().BeNull();
+        }
+
+        [Fact]
+        public void Can_deconstruct_generic_Fail_ReferenceType_to_value_with_errors()
+        {
+            var error = new Error("fail");
+
+            var (value, errors) = Result.Fail<SalesOrder>(error);
+
+            value.Should().Be(default);
+            value.Should().BeNull();
+
+            errors.Count.Should().Be(1);
+            errors.FirstOrDefault().Should().Be(error);
+        }
+
+        [Fact]
         public void Dynamic_value_is_implicit_converted_to_ValueResult()
         {
             var result = DynamicConvert("hello", typeof(string));

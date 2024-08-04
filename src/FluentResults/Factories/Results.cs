@@ -231,7 +231,7 @@ namespace FluentResults
         /// <summary>
         /// Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
         /// </summary>
-        public static Result Try(Action action, Func<Exception, IError> catchHandler = null)
+        public static Result Try(Action action, Func<Exception, IError>? catchHandler = null)
         {
             catchHandler = catchHandler ?? Settings.DefaultTryCatchHandler;
 
@@ -249,7 +249,7 @@ namespace FluentResults
         /// <summary>
         /// Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
         /// </summary>
-        public static async Task<Result> Try(Func<Task> action, Func<Exception, IError> catchHandler = null)
+        public static async Task<Result> Try(Func<Task> action, Func<Exception, IError>? catchHandler = null)
         {
             catchHandler = catchHandler ?? Settings.DefaultTryCatchHandler;
 
@@ -267,7 +267,7 @@ namespace FluentResults
         /// <summary>
         /// Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
         /// </summary>
-        public static async ValueTask<Result> Try(Func<ValueTask> action, Func<Exception, IError> catchHandler = null)
+        public static async ValueTask<Result> Try(Func<ValueTask> action, Func<Exception, IError>? catchHandler = null)
         {
             catchHandler = catchHandler ?? Settings.DefaultTryCatchHandler;
 
@@ -285,7 +285,7 @@ namespace FluentResults
         /// <summary>
         /// Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
         /// </summary>
-        public static Result<T> Try<T>(Func<T> action, Func<Exception, IError> catchHandler = null)
+        public static Result<T> Try<T>(Func<T> action, Func<Exception, IError>? catchHandler = null)
         {
             catchHandler = catchHandler ?? Settings.DefaultTryCatchHandler;
 
@@ -302,7 +302,7 @@ namespace FluentResults
         /// <summary>
         /// Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
         /// </summary>
-        public static async Task<Result<T>> Try<T>(Func<Task<T>> action, Func<Exception, IError> catchHandler = null)
+        public static async Task<Result<T>> Try<T>(Func<Task<T>> action, Func<Exception, IError>? catchHandler = null)
         {
             catchHandler = catchHandler ?? Settings.DefaultTryCatchHandler;
 
@@ -319,7 +319,7 @@ namespace FluentResults
         /// <summary>
         /// Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
         /// </summary>
-        public static async ValueTask<Result<T>> Try<T>(Func<ValueTask<T>> action, Func<Exception, IError> catchHandler = null)
+        public static async ValueTask<Result<T>> Try<T>(Func<ValueTask<T>> action, Func<Exception, IError>? catchHandler = null)
         {
             catchHandler = catchHandler ?? Settings.DefaultTryCatchHandler;
 
@@ -336,7 +336,7 @@ namespace FluentResults
         /// <summary>
         /// Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
         /// </summary>
-        public static Result Try(Func<Result> action, Func<Exception, IError> catchHandler = null)
+        public static Result Try(Func<Result> action, Func<Exception, IError>? catchHandler = null)
         {
             catchHandler = catchHandler ?? Settings.DefaultTryCatchHandler;
 
@@ -354,7 +354,7 @@ namespace FluentResults
         /// <summary>
         /// Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
         /// </summary>
-        public static async Task<Result> Try(Func<Task<Result>> action, Func<Exception, IError> catchHandler = null)
+        public static async Task<Result> Try(Func<Task<Result>> action, Func<Exception, IError>? catchHandler = null)
         {
             catchHandler = catchHandler ?? Settings.DefaultTryCatchHandler;
 
@@ -371,7 +371,7 @@ namespace FluentResults
         /// <summary>
         /// Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
         /// </summary>
-        public static async ValueTask<Result> Try(Func<ValueTask<Result>> action, Func<Exception, IError> catchHandler = null)
+        public static async ValueTask<Result> Try(Func<ValueTask<Result>> action, Func<Exception, IError>? catchHandler = null)
         {
             catchHandler = catchHandler ?? Settings.DefaultTryCatchHandler;
 
@@ -388,7 +388,7 @@ namespace FluentResults
         /// <summary>
         /// Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
         /// </summary>
-        public static Result<T> Try<T>(Func<Result<T>> action, Func<Exception, IError> catchHandler = null)
+        public static Result<T> Try<T>(Func<Result<T>> action, Func<Exception, IError>? catchHandler = null)
         {
             catchHandler = catchHandler ?? Settings.DefaultTryCatchHandler;
 
@@ -406,7 +406,7 @@ namespace FluentResults
         /// <summary>
         /// Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
         /// </summary>
-        public static async Task<Result<T>> Try<T>(Func<Task<Result<T>>> action, Func<Exception, IError> catchHandler = null)
+        public static async Task<Result<T>> Try<T>(Func<Task<Result<T>>> action, Func<Exception, IError>? catchHandler = null)
         {
             catchHandler = catchHandler ?? Settings.DefaultTryCatchHandler;
 
@@ -423,7 +423,7 @@ namespace FluentResults
         /// <summary>
         /// Executes the action. If an exception is thrown within the action then this exception is transformed via the catchHandler to an Error object
         /// </summary>
-        public static async ValueTask<Result<T>> Try<T>(Func<ValueTask<Result<T>>> action, Func<Exception, IError> catchHandler = null)
+        public static async ValueTask<Result<T>> Try<T>(Func<ValueTask<Result<T>>> action, Func<Exception, IError>? catchHandler = null)
         {
             catchHandler = catchHandler ?? Settings.DefaultTryCatchHandler;
 

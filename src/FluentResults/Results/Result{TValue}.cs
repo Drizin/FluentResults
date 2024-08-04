@@ -18,12 +18,12 @@ namespace FluentResults
         public Result()
         { }
 
-        private TValue _value;
+        private TValue? _value;
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public TValue ValueOrDefault => _value;
+        public TValue? ValueOrDefault => _value;
 
         /// <summary>
         /// <inheritdoc/>
@@ -34,7 +34,7 @@ namespace FluentResults
             {
                 ThrowIfFailed();
 
-                return _value;
+                return _value!;
             }
             private set
             {
@@ -49,6 +49,7 @@ namespace FluentResults
         /// </summary>
         public Result<TValue> WithValue(TValue value)
         {
+            // TODO: should this only be used for Successful results? Not sure, many callers seem to potentially pass null
             Value = value;
             return this;
         }
@@ -310,10 +311,13 @@ namespace FluentResults
 
         /// <summary>
         /// Deconstruct Result
+        /// The nice thing about using Deconstructors (instead of accessing <see cref="ResultBase.Errors"/>) is that 
+        /// the error object will be NULL in case of a success, so you don't have to check for empty arrays, etc.
+        /// So you always get a OneOf semantic - either errors==null or value==null (or default(T) for non-nullable types)
         /// </summary>
         /// <param name="value"></param>
         /// <param name="errors"></param>
-        public void Deconstruct(out TValue value, out List<IError> errors)
+        public void Deconstruct(out TValue? value, out List<IError>? errors)
         {
             value = IsSuccess ? Value : default;
             errors = IsFailed ? Errors : default;
@@ -321,11 +325,14 @@ namespace FluentResults
 
         /// <summary>
         /// Deconstruct Result
+        /// The nice thing about using Deconstructors (instead of accessing <see cref="ResultBase.Errors"/>) is that 
+        /// the error object will be NULL in case of a success, so you don't have to check for empty arrays, etc.
+        /// So you always get a OneOf semantic - either errors==null or value==null (or default(T) for non-nullable types)
         /// </summary>
         /// <param name="isSuccess"></param>
         /// <param name="value"></param>
         /// <param name="errors"></param>
-        public void Deconstruct(out bool isSuccess, out TValue value, out List<IError> errors)
+        public void Deconstruct(out bool isSuccess, out TValue? value, out List<IError>? errors)
         {
             isSuccess = IsSuccess;
             value = IsSuccess ? Value : default;
