@@ -26,12 +26,15 @@
   </PropertyGroup>
     
   <ItemGroup>
-    <PackageReference Include="FluentResults" Version="3.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\resources\icons\FluentResults-Icon-128.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FluentResults\FluentResults.csproj" />
   </ItemGroup>
 
 </Project>

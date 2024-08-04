@@ -27,11 +27,14 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.7.0" />
-    <PackageReference Include="FluentResults" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\resources\icons\FluentResults-Icon-128.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FluentResults\FluentResults.csproj" />
   </ItemGroup>
 
 </Project>

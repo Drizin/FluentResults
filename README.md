@@ -1,4 +1,36 @@
-<img src="https://raw.githubusercontent.com/altmann/FluentResults/master/resources/icons/FluentResults-Icon-64.png" alt="FluentResults"/>
+# Drizin.FluentResults
+
+This is a fork of https://github.com/altmann/FluentResults/ with some important changes:
+
+- Main project was upgraded to C# 9
+- Enabled Nullable Reference Types
+- The main classes/interfaces were broken into individual files
+- Major Breaking change: `Errors` object will be **`null`** when there are no errors, instead of **empty**
+- Previously there was many available deconstructors, it was confusing, redundant (they were all returning redundant fields like `isSuccess`/`isFailure`/(`TValue`)/`Errors`) and error-prone (it was possible to unintentionally ignore `TValue`), so they were all refactored.
+- `Result<TValue>` now has a single deconstructors that returns `<TValue value, List<IError> errors>`
+  - You should always either get a non-null `value` or a non-null (and non-empty) `errors` list.
+  - Then for a success you can either test `errors==null` or `success!=null` (and vice-versa)
+  - Removed redundant fields `isSuccess` (you should just test if `value!=null`) and `isFailure` (you should test if `errors==null`)
+  - So if your methods return `Result<TValue>` you can deconstruct as simple as this:  
+  `var (value, errors) = Method()`  
+  This is based on the popular golang style which is like `file, err := os.Open("filename.ext")`  
+  Previously there was a destructor where `TValue` wasn't even returned, making code error prone. Single destructor is safer pattern.
+- The non-generic `Result` (the one that does NOT hold an underlying `TValue`) now has a single deconstructor that returns `<bool isSuccess, List<IError> errors>`
+  - You use like `var (success, errors) = Method()`  
+  - Then for a success you can either test `errors==null` or `success==true` (or vice versa)
+- This means that there's a single pattern for testing and handling errors, for better maintenance
+- The implicit conversion from `Result` to `Result<TValue>` was dangerous and was removed.
+- The implicit conversion from any type to `Result<TValue>` was improved - now it can cast to any compatible type `TValue` (not limited to `object`), and there are some safety checks to avoiding unintended conversions (specially those that could change from an error to a success).
+
+In order to use the [package for this fork](https://www.nuget.org/packages/Drizin.FluentResults/): 
+
+```
+Install-Package Drizin.FluentResults
+```
+
+The rest of this document is pretty much a copy of the [original documentation](https://github.com/altmann/FluentResults/).
+
+
 # FluentResults
 
 [![Nuget downloads](https://img.shields.io/nuget/v/fluentresults.svg)](https://www.nuget.org/packages/FluentResults/)
@@ -8,11 +40,6 @@
 
 **FluentResults is a lightweight .NET library developed to solve a common problem. It returns an object indicating success or failure of an operation instead of throwing/using exceptions.**
 
-You can install [FluentResults with NuGet](https://www.nuget.org/packages/FluentResults/):
-
-```
-Install-Package FluentResults
-```
 
 > :heart: The most needed community feature is pushed to nuget: **[FluentResults.Extensions.AspNetCore](https://www.nuget.org/packages/FluentResults.Extensions.AspNetCore/)** Read [documentation](https://github.com/altmann/FluentResults/wiki/Returning-Result-Objects-from-ASP.NET-Core-Controller). Try it, test it, [give feedback](https://github.com/altmann/FluentResults/issues/149).
 
