@@ -21,7 +21,7 @@
 
             // Return failed result if passed parameters are invalid
             if (validationResult.IsFailed)
-                return validationResult;
+                return validationResult.ToResult<Address>(default);
 
             return Result.Ok(new Address
             {

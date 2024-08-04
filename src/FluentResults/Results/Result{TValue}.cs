@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 // ReSharper disable once CheckNamespace
 namespace FluentResults
@@ -102,13 +103,13 @@ namespace FluentResults
         /// <summary>
         /// Convert result with value to result with another value. Use valueConverter parameter to specify the value transformation logic.
         /// </summary>
-        public Result<TNewValue> Map<TNewValue>(Func<TValue, TNewValue> mapLogic)
+        public Result<TNewValue> Map<TNewValue>(Func<TValue, TNewValue> valueConverter)
         {
-            if (IsSuccess && mapLogic == null)
+            if (IsSuccess && valueConverter == null)
                 throw new ArgumentException("If result is success then valueConverter should not be null");
 
             return new Result<TNewValue>()
-                   .WithValue(IsFailed ? default : mapLogic(Value))
+                   .WithValue(IsFailed ? default : valueConverter(Value))
                    .WithReasons(Reasons);
         }
 
@@ -267,15 +268,7 @@ namespace FluentResults
         }
 
         /// <summary>
-        /// Implicit conversion from <see cref="Result"/> without a value to <see cref="Result{TValue}"/> having the default value
-        /// </summary>
-        public static implicit operator Result<TValue>(Result result)
-        {
-            return result.ToResult<TValue>(default);
-        }
-
-        /// <summary>
-        /// Implicit conversion from <see cref="Result{TValue}"/> having a value to <see cref="Result"/> without a value
+        /// Implicit conversion from <see cref="Result{TValue}"/> having a value to <see cref="Result{object}"/>
         /// </summary>
         public static implicit operator Result<object>(Result<TValue> result)
         {
@@ -290,6 +283,42 @@ namespace FluentResults
             if (value is Result<TValue> r)
                 return r;
 
+            // If value is already a Result you don't want to just wrap it again (possibly converting a Fail into a Success)
+            Type t;
+            if (value != null && typeof(IResultBase).IsAssignableFrom(t = value.GetType()))
+            {
+                // Exactly like the convertion above to Result<object>, but can be to any supertype of TValue
+                var typeTo = typeof(TValue);
+                if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Result<>))
+                {
+                    var typeFrom = t.GetGenericArguments()[0];
+                    if (typeTo.IsAssignableFrom(typeFrom))
+                    {
+                        // Invoke Map using reflection
+                        var m = t.GetMethod("Map").MakeGenericMethod(typeTo); // Result<TNewValue> Map<TValue>
+                        var genericTypes = new Type[] { typeTo, typeFrom };
+                        var func = typeof(Func<,>).MakeGenericType(genericTypes);
+                        //https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/expression-trees-building#build-code-in-depth
+                        var from = Expression.Parameter(typeFrom, "from");
+                        var cast = Expression.Convert(from, typeTo); // cast
+                        var del = Expression.Lambda(cast, from).Compile();
+                        var mappedResult = m.Invoke(value, new object[] { del });
+                        return (Result<TValue>) mappedResult;
+                    }
+                    //throw new ArgumentException($"Cannot convert automatically from Result<{typeFrom.Name}> to Result<{typeTo.Name}>");
+                }
+                // Can't infer conversion to TValue type, but we should at least preserve success/fail/errors
+                var original = (IResultBase)value;
+                if (original.IsFailed)
+                    return Result.Fail<TValue>(original.Errors);
+                else if (typeTo == typeof(object)) // if it's to object then it's ok that we can't map result to it
+                    return Result.Ok<TValue>(default).WithReasons(original.Reasons);
+                //else // converting a Successful Result<SalesOrder> to Result<Bananas> seems very ugly and unsafe
+                //    return Result.Ok<TValue>(default).WithReasons(original.Reasons);
+
+                throw new ArgumentException($"Cannot convert automatically from Result to Result<{typeTo.Name}>");
+            }
+
             return Result.Ok(value);
         }
         
@@ -298,7 +327,7 @@ namespace FluentResults
         /// </summary>
         public static implicit operator Result<TValue>(Error error)
         {
-            return Result.Fail(error);
+            return Result.Fail(error).ToResult<TValue>(default);
         }
 
         /// <summary>
@@ -306,7 +335,7 @@ namespace FluentResults
         /// </summary>
         public static implicit operator Result<TValue>(List<Error> errors)
         {
-            return Result.Fail(errors);
+            return Result.Fail(errors).ToResult<TValue>(default);
         }
 
         /// <summary>

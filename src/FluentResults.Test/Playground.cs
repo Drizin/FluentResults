@@ -58,7 +58,6 @@ namespace FluentResults.Test
             Result mergedResult = results.Merge();
 
             IEnumerable<Result<int>> results2 = new List<Result<int>>();
-            Result<IEnumerable<int>> mergedResult2 = results.Merge();
         }
 
         public void TestExtensions()

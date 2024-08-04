@@ -183,7 +183,7 @@ namespace FluentResults.Test
             var result = Result.Fail("First error message");
 
             // Act
-            Result<bool> valueResult = result;
+            Result<bool> valueResult = result.ToResult<bool>(default);
 
             // Assert
             valueResult.IsFailed.Should().BeTrue();
@@ -875,7 +875,7 @@ namespace FluentResults.Test
                 var valueResult = Result.Ok().WithSuccess("First number");
 
                 // Act
-                var result = await valueResult.Bind(() => new ValueTask<Result<string>>(Result.Ok().WithSuccess("It is one")));
+                var result = await valueResult.Bind(() => new ValueTask<Result<string>>(Result.Ok().WithSuccess("It is one").ToResult<string>(default)));
 
                 // Assert
                 result.IsSuccess.Should().BeTrue();
@@ -970,7 +970,7 @@ namespace FluentResults.Test
                 var valueResult = Result.Ok();
 
                 // Act
-                var result = await valueResult.Bind(() => new ValueTask<Result<string>>(Result.Fail("Only one accepted")));
+                var result = await valueResult.Bind(() => new ValueTask<Result<string>>(Result.Fail("Only one accepted").ToResult<string>(default)));
 
                 // Assert
                 result.IsFailed.Should().BeTrue();

@@ -295,7 +295,7 @@ namespace FluentResults
             }
             catch (Exception e)
             {
-                return Fail(catchHandler(e));
+                return Fail(catchHandler(e)).ToResult<T>(default);
             }
         }
 
@@ -312,7 +312,7 @@ namespace FluentResults
             }
             catch (Exception e)
             {
-                return Fail(catchHandler(e));
+                return Fail(catchHandler(e)).ToResult<T>(default);
             }
         }
 
@@ -329,7 +329,7 @@ namespace FluentResults
             }
             catch (Exception e)
             {
-                return Fail(catchHandler(e));
+                return Fail(catchHandler(e)).ToResult<T>(default);
             }
         }
 
@@ -398,7 +398,7 @@ namespace FluentResults
             }
             catch (Exception e)
             {
-                return Fail(catchHandler(e));
+                return Fail(catchHandler(e)).ToResult<T>(default);
             }
 
         }
@@ -416,7 +416,7 @@ namespace FluentResults
             }
             catch (Exception e)
             {
-                return Fail(catchHandler(e));
+                return Fail(catchHandler(e)).ToResult<T>(default);
             }
         }
 
@@ -433,7 +433,7 @@ namespace FluentResults
             }
             catch (Exception e)
             {
-                return Fail(catchHandler(e));
+                return Fail(catchHandler(e)).ToResult<T>(default);
             }
         }
 

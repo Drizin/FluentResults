@@ -556,7 +556,7 @@ namespace FluentResults.Test
                 var valueResult = Result.Ok(1).WithSuccess("First number");
 
                 // Act
-                var result = await valueResult.Bind(n => new ValueTask<Result<string>>(Result.OkIf(n == 1, "Irrelevant").WithSuccess("It is one")));
+                var result = await valueResult.Bind(n => new ValueTask<Result<string>>(Result.OkIf(n == 1, "Irrelevant").WithSuccess("It is one").ToResult<string>(default)));
 
                 // Assert
                 result.IsSuccess.Should().BeTrue();
@@ -651,7 +651,7 @@ namespace FluentResults.Test
                 var valueResult = Result.Ok(5);
 
                 // Act
-                var result = await valueResult.Bind(n => new ValueTask<Result<string>>(Result.Fail("Only one accepted")));
+                var result = await valueResult.Bind(n => new ValueTask<Result<string>>(Result.Fail("Only one accepted").ToResult<string>(default)));
 
                 // Assert
                 result.IsFailed.Should().BeTrue();
